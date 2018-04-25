@@ -2,10 +2,10 @@ package com.tencent.sxwx.wechat.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.tencent.sxwx.wechat.bean.AppConfig;
+import com.tencent.sxwx.wechat.bean.Demo;
 import com.tencent.sxwx.wechat.dto.PageDTO;
 import com.tencent.sxwx.wechat.dto.ResponseData;
-import com.tencent.sxwx.wechat.mapper.AppConfigMapper;
+import com.tencent.sxwx.wechat.mapper.DemoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,26 +18,26 @@ import java.util.List;
  */
 
 @Service
-public class AppConfigService {
+public class DemoService {
 
 
     @Autowired
-    private AppConfigMapper appConfigMapper;
+    private DemoMapper demoMapper;
 
 
     @Transactional
-    public ResponseData addAppConfig(AppConfig appCongig) {
+    public ResponseData addAppConfig(Demo demo) {
         ResponseData data = new ResponseData();
 
 
-        String exist = appConfigMapper.findCongfigByName(appCongig.getAppName());
+        String exist = demoMapper.findCongfigByName(demo.getName());
 
         if (!StringUtils.isEmpty(exist)) {
             data.setMsg("app名称已经存在");
             data.setStatus(false);
             return data;
         }
-        appConfigMapper.addAppConfig(appCongig);
+        demoMapper.addAppConfig(demo);
         data.setMsg("添加成功");
         data.setStatus(true);
         return data;
@@ -47,17 +47,17 @@ public class AppConfigService {
         ResponseData data = new ResponseData();
 
 
-        int result = appConfigMapper.deleteCongfig(id);
+        int result = demoMapper.deleteCongfig(id);
         data.setMsg(result <= 0 ? "删除失败" : "删除成功");
         data.setStatus(result <= 0 ? false : true);
         return data;
     }
 
-    public ResponseData updateAppConfig(AppConfig appCongig) {
+    public ResponseData updateAppConfig(Demo appCongig) {
         ResponseData data = new ResponseData();
 
 
-        int result = appConfigMapper.updateConfig(appCongig);
+        int result = demoMapper.updateConfig(appCongig);
         data.setMsg(result <= 0 ? "修改失败" : "修改成功");
         data.setStatus(result <= 0 ? false : true);
         return data;
@@ -67,14 +67,14 @@ public class AppConfigService {
         ResponseData data = new ResponseData();
         data.setMsg("");
         data.setStatus(true);
-        data.setData(appConfigMapper.findCongfigById(id));
+        data.setData(demoMapper.findCongfigById(id));
         return data;
     }
 
-    public PageDTO<AppConfig> findList(Integer pageNo, Integer pageSize) {
-        PageDTO<AppConfig> dto = new PageDTO();
-        Page<AppConfig> page = PageHelper.startPage(pageNo, pageSize);
-        List<AppConfig> dataList = appConfigMapper.findAll();
+    public PageDTO<Demo> findList(Integer pageNo, Integer pageSize) {
+        PageDTO<Demo> dto = new PageDTO();
+        Page<Demo> page = PageHelper.startPage(pageNo, pageSize);
+        List<Demo> dataList = demoMapper.findAll();
         dto.setList(dataList);
         dto.setTotalCount(page.getTotal());
         dto.setPageNo(pageNo);

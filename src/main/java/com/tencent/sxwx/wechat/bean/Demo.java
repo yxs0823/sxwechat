@@ -7,14 +7,11 @@ import org.hibernate.validator.constraints.NotBlank;
  * Created by Administrator on 2018/4/16 0016.
  */
 @Data
-public class AppConfig {
+public class Demo {
 
     private Long id;
 
-    @NotBlank(message = "appname不能为空")
-    private String appName;
-
-    @NotBlank(message = "bundleId")
-    private String bundleId;
+    @NotBlank(message = "姓名不能为空")
+    private String name;
 
 }
